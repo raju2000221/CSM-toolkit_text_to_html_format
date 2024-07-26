@@ -4,108 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HTML Transformer</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-      .container {
-        display: flex;
-        /* align-items: center;  */
-        /* justify-content: center; */
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 20px;
-        gap: 20px;
-      }
+    <link rel="stylesheet" href="styles.css">
 
-      .input-panel,
-      .output-panel {
-        flex: 1;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        /* min-height: 75vh; */
-      }
-      .input-panel {
-        background-color: #f9f9f9;
-      }
-      .output-panel {
-        background-color: #fff;
-      }
-      textarea {
-        width: 99%;
-        margin-right: 20px;
-        height: 300px;
-      }
-      button {
-        display: block;
-        margin: 10px 0;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        color: #fff;
-        background-color: #007bff;
-        cursor: pointer;
-      }
-
-      button:hover {
-        background-color: #0056b3;
-      }
-      select {
-        width: 100%;
-        margin: 10px 0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 2px;
-        font-size: 16px;
-      }
-
-      pre {
-        white-space: pre-wrap; /* Allow text wrapping */
-        word-wrap: break-word; /* Break long words */
-      }
-      .input-style {
-        display: flex;
-        justify-content: space-between;
-        gap: 5px;
-      }
-      .input-style input {
-        margin: 10px 0;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-      .checkbox-style {
-        display: flex;
-        justify-content: space-between;
-      }
-      .checkbox-container {
-        margin-bottom: 10px;
-        border: 1px dotted #a3a3a3;
-        text-align: center;
-        padding: 7px;
-      }
-      .output-heading {
-        display: flex;
-        justify-content: space-between;
-      }
-      .left-side-btn {
-        display: flex;
-        justify-content: space-between;
-      }
-      #copy-output {
-        width: 100px;
-        font-size: 13px;
-        font-weight: 700;
-      }
-    </style>
   </head>
   <body>
+    <p class="author">© 2024 RAJU ISLAM. All rights reserved.</p>
+    <nav class="navbar">
+      <a href="common-box.html" class="logo">Common box</a>
+      <a href="index.html" class="active">Common Section</a>
+    </nav>
     <div class="container">
       <div class="input-panel">
-        <h1>HTML Transformer</h1>
+        <h1>HTML Generator</h1>
         <textarea id="inputHtml" placeholder="Enter your HTML here"></textarea>
         <select id="styleSelect">
           <option class="option" value="right">Image Right</option>
@@ -151,13 +61,13 @@
           </div>
         </div>
         <div class="left-side-btn">
-          <button onclick="transformHtml()">Transform HTML</button>
+          <button onclick="transformHtml()">Generate HTML</button>
           <button onclick="clearInput()">Clear Input</button>
         </div>
       </div>
       <div class="output-panel">
         <div class="output-heading">
-          <h2>Transformed HTML</h2>
+          <h2>Generated HTML</h2>
           <button id="copy-output" onclick="copyOutput()">Copy Output</button>
         </div>
         <pre id="outputHtml"></pre>

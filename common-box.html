@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML Generator</title>
+   <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <p class="author">© 2024 RAJU ISLAM. All rights reserved.</p>
+    <nav class="navbar">
+        <a href="common-box.html" class="logo active">Common box</a>
+        <a href="index.html" class="">Common Section</a>
+      </nav>
+    <div class="container">
+      <div class="input-panel">
+        <h1>Common box generator</h1>
+        <div class="input-class">
+          <div class="form-group">
+            <label for="sectionClass">Section Class:</label>
+            <input type="text" id="sectionClass" placeholder="common-sec" />
+          </div>
+          <div class="form-group">
+            <label for="mainHeadingClass">Main Heading Class:</label>
+            <input
+              type="text"
+              id="mainHeadingClass"
+              placeholder="common-heading"
+            />
+          </div>
+        </div>
+        <div class="col-tag-num">
+          <div class="form-group">
+            <label for="colSize">Column Size (e.g., col-md-6):</label>
+            <input type="text" id="colSize" value="col-md-6" />
+          </div>
+          <div class="form-group">
+            <label for="headingTag">Column Heading Tag (default: h3):</label>
+            <input type="text" id="headingTag" value="h3" />
+          </div>
+        </div>
+
+        <div class="include-img-col-nun">
+          <div class="form-group">
+            <label for="numColumns">Number of Columns:</label>
+            <input type="number" id="numColumns" value="1" min="1" />
+          </div>
+          <div class="form-group includeImage">
+            <input type="checkbox" id="includeImage" />
+            <label for="includeImage">Include Image</label>
+          </div>
+        </div>
+        <button onclick="generateColumns()">Generate Columns</button>
+        <div class="form-group">
+          <label for="mainHeading">Main Heading:</label>
+          <input type="text" id="mainHeading" />
+        </div>
+        <div class="form-group">
+          <label for="mainParagraph">Main Paragraph:</label>
+          <textarea id="mainParagraph"></textarea>
+        </div>
+        <div id="columnInputs"></div>
+        <button onclick="generateHTML()">Generate HTML</button>
+      </div>
+      <div class="output-panel">
+        <div class="output-head">
+          <h2>Generated HTML</h2>
+          <button class="output" id="output" onclick="copyToClipboard()">
+            Copy Output
+          </button>
+        </div>
+        <pre id="outputHtml"></pre>
+      </div>
+    </div>
+    <script>
+      function generateColumns() {
+        const numColumns = document.getElementById("numColumns").value;
+        const columnInputs = document.getElementById("columnInputs");
+        columnInputs.innerHTML = "";
+
+        for (let i = 0; i < numColumns; i++) {
+          const columnInput = document.createElement("div");
+          columnInput.className = "form-group";
+          columnInput.innerHTML = `
+            <label for="columnHeading${i}">Column ${i + 1} Heading:</label>
+            <input type="text" id="columnHeading${i}" />
+            <label for="columnContent${i}">Column ${i + 1} Content:</label>
+            <textarea id="columnContent${i}"></textarea>
+          `;
+          columnInputs.appendChild(columnInput);
+        }
+      }
+
+      function generateHTML() {
+        document.getElementById("output").innerText ="Copy"
+        const sectionClass =
+          document.getElementById("sectionClass").value || "common-sec";
+        const mainHeadingClass =
+          document.getElementById("mainHeadingClass").value || "common-heading";
+        const mainHeading = document.getElementById("mainHeading").value;
+        const mainParagraph = document.getElementById("mainParagraph").value;
+        const includeImage = document.getElementById("includeImage").checked;
+        const colSize = document.getElementById("colSize").value;
+        const numColumns = document.getElementById("numColumns").value;
+        const headingTag = document.getElementById("headingTag").value || "h3";
+
+        let html = `
+<div class="${sectionClass}">
+  <div class="container">
+    <h2 class="${mainHeadingClass}">${mainHeading}</h2>
+    <p>${mainParagraph}</p>
+    <div class="row">
+`;
+
+        for (let i = 0; i < numColumns; i++) {
+          const columnHeading = document.getElementById(
+            `columnHeading${i}`
+          ).value;
+          const columnContent = document.getElementById(
+            `columnContent${i}`
+          ).value;
+
+          html += `
+      <div class="${colSize} mb-5">
+        <div class="common-box">
+`;
+
+          if (includeImage) {
+            html += `
+          <div class="img-box">
+            <a href="#">
+              <img src="/images/.jpg" alt="" />
+            </a>
+          </div>
+`;
+          }
+
+          html += `
+          <div class="content">
+            <${headingTag} class="${mainHeadingClass}">${columnHeading}</${headingTag}>
+            <p>${columnContent}</p>
+          </div>
+        </div>
+      </div>
+`;
+        }
+
+        html += `
+    </div>
+  </div>
+</div>
+`;
+
+        document.getElementById("outputHtml").textContent = html;
+      }
+
+      function copyToClipboard() {
+        const outputHtml = document.getElementById("outputHtml").textContent;
+        navigator.clipboard.writeText(outputHtml).then(() => {
+          document.getElementById("output").innerText= "Copied"
+        });
+      }
+    </script>
+  </body>
+</html>

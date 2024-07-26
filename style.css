@@ -1,0 +1,155 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+  }
+  .container {
+    display: flex;
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 20px;
+    gap: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  .input-panel,
+  .output-panel {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .input-panel {
+    background-color: #f9f9f9;
+  }
+  .output-panel {
+    background-color: #fff;
+  }
+  textarea {
+    width: 96%;
+    height: 100px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #007bff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 94%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .input-class,
+  .include-img-col-nun,
+  .col-tag-num {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  .includeImage {
+    border: 1px dotted #707070;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f4f4f9;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  h1,
+  h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  label {
+    font-weight: bold;
+    margin-bottom: -1px;
+    display: block;
+    color: #555;
+  }
+  .input-panel h1 {
+    font-size: 24px;
+  }
+  .output-panel h2 {
+    font-size: 22px;
+  }
+  .output-head{
+    display: flex;
+    justify-content: space-between;
+  }
+  .output{
+    font-size: 12px;
+    font-weight: 700;
+    width: 110px;
+  }
+  .navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 10px;
+    gap: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  .navbar a {
+    padding: 14px 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .navbar a:hover {
+    background-color: #ddd;
+    color: #000;
+  }
+  .navbar a.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  .author {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    font-size: 11px;
+    color: #000;
+    transform-origin: left top;
+    padding: 8px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #69b2ff9d;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
