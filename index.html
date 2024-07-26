@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML Transformer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        display: flex;
+        /* align-items: center;  */
+        /* justify-content: center; */
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+        gap: 20px;
+      }
+
+      .input-panel,
+      .output-panel {
+        flex: 1;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        /* min-height: 75vh; */
+      }
+      .input-panel {
+        background-color: #f9f9f9;
+      }
+      .output-panel {
+        background-color: #fff;
+      }
+      textarea {
+        width: 99%;
+        margin-right: 20px;
+        height: 300px;
+      }
+      button {
+        display: block;
+        margin: 10px 0;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        background-color: #007bff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+      select {
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        font-size: 16px;
+      }
+
+      pre {
+        white-space: pre-wrap; /* Allow text wrapping */
+        word-wrap: break-word; /* Break long words */
+      }
+      .input-style {
+        display: flex;
+        justify-content: space-between;
+        gap: 5px;
+      }
+      .input-style input {
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .checkbox-style {
+        display: flex;
+        justify-content: space-between;
+      }
+      .checkbox-container {
+        margin-bottom: 10px;
+        border: 1px dotted #a3a3a3;
+        text-align: center;
+        padding: 7px;
+      }
+      .output-heading {
+        display: flex;
+        justify-content: space-between;
+      }
+      .left-side-btn {
+        display: flex;
+        justify-content: space-between;
+      }
+      #copy-output {
+        width: 100px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="input-panel">
+        <h1>HTML Transformer</h1>
+        <textarea id="inputHtml" placeholder="Enter your HTML here"></textarea>
+        <select id="styleSelect">
+          <option class="option" value="right">Image Right</option>
+          <option class="option" value="left">Image Left</option>
+          <option class="option" value="basic-sec">Basic section</option>
+          <option class="option" value="flot-left">Image flot Left</option>
+          <option class="option" value="flot-right">Image flot Right</option>
+        </select>
+        <div class="input-style">
+          <input
+            type="text"
+            id="commonSecClass"
+            placeholder="Enter class for section"
+          />
+          <input
+            type="text"
+            id="heading_class"
+            placeholder="Enter class for heading"
+          />
+          <input type="text" id="ulClass" placeholder="Enter class for ul" />
+          <input
+            type="text"
+            id="btnClasses"
+            placeholder="Enter classes for buttons"
+          />
+        </div>
+        <div class="checkbox-style">
+          <div class="checkbox-container">
+            <label for="includePhone">Include phone link</label>
+            <input type="checkbox" id="includePhone" />
+          </div>
+          <div class="checkbox-container">
+            <label for="includeContact">Include Contact link</label>
+            <input type="checkbox" id="includeContact" />
+          </div>
+          <div class="checkbox-container">
+            <label for="includeReview">Include Review link</label>
+            <input type="checkbox" id="includeReview" />
+          </div>
+          <div class="checkbox-container">
+            <label for="optimizeImage">Optimize Image</label>
+            <input type="checkbox" id="optimizeImage" />
+          </div>
+        </div>
+        <div class="left-side-btn">
+          <button onclick="transformHtml()">Transform HTML</button>
+          <button onclick="clearInput()">Clear Input</button>
+        </div>
+      </div>
+      <div class="output-panel">
+        <div class="output-heading">
+          <h2>Transformed HTML</h2>
+          <button id="copy-output" onclick="copyOutput()">Copy Output</button>
+        </div>
+        <pre id="outputHtml"></pre>
+      </div>
+    </div>
+
+    <script>
+      function transformHtml() {
+        document.getElementById("copy-output").innerText = "Copy Output";
+        const inputHtml = document.getElementById("inputHtml").value;
+        const selectedStyle = document.getElementById("styleSelect").value;
+        const commonSecClass =
+          document.getElementById("commonSecClass").value.trim() ||
+          "common-sec";
+        const ulClass = document.getElementById("ulClass").value.trim();
+        const btnClasses =
+          document.getElementById("btnClasses").value.trim() ||
+          "common btn bg-danger";
+        const heading_class =
+          document.getElementById("heading_class").value.trim() ||
+          "common-heading";
+        const includePhone = document.getElementById("includePhone").checked;
+        const includeContact =
+          document.getElementById("includeContact").checked;
+        const includeReview = document.getElementById("includeReview").checked;
+        const optimizeImage = document.getElementById("optimizeImage").checked;
+
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = inputHtml;
+        const elements = tempDiv.children;
+        let content = "";
+
+        for (let element of elements) {
+          if (element.tagName === "UL") {
+            content += `<ul class="${ulClass}">${sanitizeHtml(
+              element.innerHTML
+            )}</ul>\n`;
+          } else if (element.tagName === "P") {
+            content += `<p>${sanitizeHtml(element.innerHTML)}</p>\n`;
+          } else if (element.tagName.startsWith("H")) {
+            content += `<${element.tagName.toLowerCase()} class="${heading_class}">${sanitizeHtml(
+              element.innerHTML
+            )}</${element.tagName.toLowerCase()}>\n`;
+          }
+        }
+
+        if (includePhone) {
+          content += `<a class="${btnClasses}" rel="nofollow" href="tel:##phone##">
+<i class="fa fa-phone"></i> ##phone##
+</a>\n`;
+        }
+
+        if (includeContact) {
+          content += `<a class="${btnClasses}" rel="nofollow" href="tel:##phone##">
+<i class="fa fa-phone"></i> ##phone##
+</a>\n`;
+        }
+
+        if (includeReview) {
+          content += `<a class="${btnClasses}" rel="nofollow" href="tel:##phone##">
+<i class="fa fa-phone"></i> ##phone##
+</a>\n`;
+        }
+
+        let imageHtml = "";
+
+        if (optimizeImage) {
+          imageHtml = `
+<picture class="img-box">
+  <source media="(max-width:576px)" srcset="/images/optimized-small.jpg" />
+  <source media="(max-width:991px)" srcset="/images/optimized-medium.jpg" />
+  <img src="/images/optimized-large.jpg" class="lazyload" alt="" />
+</picture>`;
+        } else {
+          imageHtml = `
+<div class="img-box">
+  <img src="/images/.jpg" alt="" />
+</div>`;
+        }
+
+        let template = "";
+
+        if (selectedStyle === "right") {
+          template = `
+<div class="${commonSecClass}">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 order-lg-last">
+        ${imageHtml}
+      </div>
+      <div class="col-lg-6">
+        ${content}
+      </div>
+    </div>
+  </div>
+</div>`;
+        } else if (selectedStyle === "left") {
+          template = `
+<div class="${commonSecClass}">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        ${imageHtml}
+      </div>
+      <div class="col-lg-6">
+        ${content}
+      </div>
+    </div>
+  </div>
+</div>`;
+        } else if (selectedStyle === "flot-left") {
+          template = `
+<div class="${commonSecClass}">
+  <div class="container">
+    <div class="img-box float-lg-left">
+      <img src="/images/.jpg" alt="" />
+    </div>
+     ${content}
+  </div>
+</div>`;
+        } else if (selectedStyle === "flot-right") {
+          template = `
+<div class="${commonSecClass}">
+  <div class="container">
+    <div class="img-box float-lg-right">
+      <img src="/images/.jpg" alt="" />
+    </div>
+        ${content}
+  </div>
+</div>`;
+        } else if (selectedStyle === "basic-sec") {
+          template = `
+<div class="${commonSecClass}">
+  <div class="container">
+    ${content}
+  </div>
+</div>`;
+        }
+
+        document.getElementById("outputHtml").textContent = template;
+      }
+
+      function sanitizeHtml(html) {
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = html;
+
+        // Remove inline styles
+        Array.from(tempDiv.querySelectorAll("[style]")).forEach((el) =>
+          el.removeAttribute("style")
+        );
+
+        // Remove <br> tags
+        Array.from(tempDiv.querySelectorAll("br")).forEach((el) => el.remove());
+        Array.from(tempDiv.querySelectorAll("&")).forEach((el) => el.remove());
+
+        // Decode &amp; to & if not already decoded
+        // tempDiv.innerHTML = tempDiv.innerHTML.replace(/&;/g, "and");
+
+        // Replace &nbsp; with a regular space
+        tempDiv.innerHTML = tempDiv.innerHTML.replace(/&nbsp;/g, " ");
+
+        return tempDiv.innerHTML;
+      }
+
+      function clearInput() {
+        document.getElementById("inputHtml").value = "";
+      }
+
+      function copyOutput() {
+        const outputHtml = document.getElementById("outputHtml").textContent;
+        navigator.clipboard.writeText(outputHtml).then(() => {
+          document.getElementById("copy-output").innerText = "Copied";
+        });
+      }
+    </script>
+  </body>
+</html>
