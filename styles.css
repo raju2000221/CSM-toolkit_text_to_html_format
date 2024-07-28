@@ -75,12 +75,13 @@ pre {
 .checkbox-style {
   display: flex;
   justify-content: space-between;
+  gap: 3px;
 }
 .checkbox-container {
   margin-bottom: 10px;
   border: 1px dotted #a3a3a3;
   text-align: center;
-  padding: 7px;
+  padding: 5px;
 }
 .output-heading {
   display: flex;
@@ -135,4 +136,17 @@ pre {
     border-bottom-right-radius: 5px;
     background-color: #69b2ff9d;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  small{
+    text-align: center;
+    color: #787777;
+  }
+  .checkbox-container:has(input[type="checkbox"]:checked) {
+    border: 1px dashed #007BFF;
+  }
+  .clear-input{
+    background-color: rgb(234, 88, 88);
+  }
+  .clear-input:hover{
+    background-color: rgb(251, 52, 52);
   }

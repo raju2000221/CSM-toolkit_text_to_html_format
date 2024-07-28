@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HTML Transformer</title>
-    <link rel="stylesheet" href="styles.css">
-
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <p class="author">© 2024 RAJU ISLAM. All rights reserved.</p>
@@ -16,13 +15,13 @@
     <div class="container">
       <div class="input-panel">
         <h1>HTML Generator</h1>
-        <textarea id="inputHtml" placeholder="Enter your HTML here"></textarea>
+        <textarea id="inputHtml" placeholder="[Enter your HTML here]"></textarea>
         <select id="styleSelect">
           <option class="option" value="right">Image Right</option>
           <option class="option" value="left">Image Left</option>
           <option class="option" value="basic-sec">Basic section</option>
-          <option class="option" value="flot-left">Image flot Left</option>
-          <option class="option" value="flot-right">Image flot Right</option>
+          <option class="option" value="flot-left">Image float Left</option>
+          <option class="option" value="flot-right">Image float Right</option>
         </select>
         <div class="input-style">
           <input
@@ -42,32 +41,70 @@
             placeholder="Enter classes for buttons"
           />
         </div>
+        <div class="input-style">
+          <input type="text" id="imgBox" placeholder="img-box" />
+          <input
+            type="text"
+            id="rowClass"
+            placeholder="row align-items-center"
+          />
+          <input
+            type="text"
+            id="imgCol"
+            placeholder="[image column] col-lg-6"
+          />
+          <input
+            type="text"
+            id="contCol"
+            placeholder="[content column] col-lg-6"
+          />
+        </div>
         <div class="checkbox-style">
           <div class="checkbox-container">
-            <label for="includePhone">Include phone link</label>
+            <label for="includePhone">Add Phone btn</label>
             <input type="checkbox" id="includePhone" />
           </div>
           <div class="checkbox-container">
-            <label for="includeContact">Include Contact link</label>
+            <label for="includeContact">Add Contact btn</label>
             <input type="checkbox" id="includeContact" />
           </div>
           <div class="checkbox-container">
-            <label for="includeReview">Include Review link</label>
+            <label for="includeReview">Add Review btn</label>
             <input type="checkbox" id="includeReview" />
           </div>
           <div class="checkbox-container">
             <label for="optimizeImage">Optimize Image</label>
             <input type="checkbox" id="optimizeImage" />
           </div>
+          <div class="checkbox-container">
+            <label for="withoutcontainer">Without Container</label>
+            <input type="checkbox" id="withoutcontainer" />
+          </div>
+        </div>
+        <div class="checkbox-style">
+          <div class="checkbox-container">
+            <label for="withoutHeadingClass">Without Heading class</label>
+            <input type="checkbox" id="withoutHeadingClass" />
+          </div>
+          <div class="checkbox-container">
+            <label for="useLazyload">Use lazyload</label>
+            <input type="checkbox" id="useLazyload" />
+          </div>
         </div>
         <div class="left-side-btn">
           <button onclick="transformHtml()">Generate HTML</button>
-          <button onclick="clearInput()">Clear Input</button>
+          <button class="clear-input" onclick="clearInput()">Clear Input</button>
         </div>
+        <small class="note"
+          ><b>[ NOTE ]</b> When input fields are left empty, the system will
+          automatically apply Nayem Vaiya's template classes as default. <br />
+          If any classes are entered into the input fields, these will replace
+          the default classes.</small
+        >
       </div>
       <div class="output-panel">
         <div class="output-heading">
-          <h2>Generated HTML</h2>
+          <h2>Generated OUTPUT</h2>
           <button id="copy-output" onclick="copyOutput()">Copy Output</button>
         </div>
         <pre id="outputHtml"></pre>
@@ -94,6 +131,21 @@
           document.getElementById("includeContact").checked;
         const includeReview = document.getElementById("includeReview").checked;
         const optimizeImage = document.getElementById("optimizeImage").checked;
+        const useLazyload = document.getElementById("useLazyload").checked;
+        const withoutContainer =
+          document.getElementById("withoutcontainer").checked;
+        const withoutHeadingClass = document.getElementById(
+          "withoutHeadingClass"
+        ).checked;
+        const imgBox =
+          document.getElementById("imgBox").value.trim() || "img-box";
+        const rowClass =
+          document.getElementById("rowClass").value.trim() ||
+          "row align-items-center";
+        const imgCol =
+          document.getElementById("imgCol").value.trim() || "col-lg-6";
+        const contCol =
+          document.getElementById("contCol").value.trim() || "col-lg-6";
 
         const tempDiv = document.createElement("div");
         tempDiv.innerHTML = inputHtml;
@@ -108,7 +160,9 @@
           } else if (element.tagName === "P") {
             content += `<p>${sanitizeHtml(element.innerHTML)}</p>\n`;
           } else if (element.tagName.startsWith("H")) {
-            content += `<${element.tagName.toLowerCase()} class="${heading_class}">${sanitizeHtml(
+            content += `<${element.tagName.toLowerCase()}${
+              withoutHeadingClass ? `>` : ` class="${heading_class}">`
+            }${sanitizeHtml(
               element.innerHTML
             )}</${element.tagName.toLowerCase()}>\n`;
           }
@@ -116,132 +170,197 @@
 
         if (includePhone) {
           content += `<a class="${btnClasses}" rel="nofollow" href="tel:##phone##">
-<i class="fa fa-phone"></i> ##phone##
-</a>\n`;
+          <i class="fa fa-phone"></i> ##phone##
+          </a>\n`;
         }
 
         if (includeContact) {
-          content += `<a class="${btnClasses}" rel="nofollow" href="tel:##phone##">
-<i class="fa fa-phone"></i> ##phone##
-</a>\n`;
+          content += `<a class="${btnClasses}" rel="nofollow" href="/about-us/contact-us">
+           Contact Us
+            </a>\n`;
         }
 
         if (includeReview) {
-          content += `<a class="${btnClasses}" rel="nofollow" href="tel:##phone##">
-<i class="fa fa-phone"></i> ##phone##
-</a>\n`;
+          content += `<a class="${btnClasses}" rel="nofollow" href="/about-us/reviews">
+          Reviews
+          </a>\n`;
         }
 
         let imageHtml = "";
 
         if (optimizeImage) {
-          imageHtml = `
-<picture class="img-box">
+          if (useLazyload) {
+            imageHtml = `
+<picture class="${imgBox}">
   <source media="(max-width:576px)" srcset="/images/optimized-small.jpg" />
   <source media="(max-width:991px)" srcset="/images/optimized-medium.jpg" />
-  <img src="/images/optimized-large.jpg" class="lazyload" alt="" />
+  <img src="#" data-src="/images/optimized-large.jpg" class="lazyload" alt="" />
 </picture>`;
+          } else {
+            imageHtml = `
+<picture class="${imgBox}">
+  <source media="(max-width:576px)" srcset="/images/optimized-small.jpg" />
+  <source media="(max-width:991px)" srcset="/images/optimized-medium.jpg" />
+  <img src="/images/optimized-large.jpg" alt="" />
+</picture>`;
+          }
         } else {
-          imageHtml = `
-<div class="img-box">
+          if (useLazyload) {
+            imageHtml = `
+<div class="${imgBox}">
+  <img class="lazyload" src="#" data-src="/images/.jpg" alt="" />
+</div>`;
+          } else {
+            imageHtml = `
+<div class="${imgBox}">
   <img src="/images/.jpg" alt="" />
 </div>`;
+          }
         }
-
         let template = "";
 
         if (selectedStyle === "right") {
-          template = `
+          if (withoutContainer) {
+            template = `
 <div class="${commonSecClass}">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6 order-lg-last">
+    <div class="${rowClass}">
+      <div class="${imgCol} order-lg-last">
         ${imageHtml}
       </div>
-      <div class="col-lg-6">
+      <div class="${contCol}">
+        ${content}
+      </div>
+    </div>
+</div>`;
+          } else {
+            template = `
+<div class="${commonSecClass}">
+  <div class="container">
+    <div class="${rowClass}">
+      <div class="${imgCol} order-lg-last">
+        ${imageHtml}
+      </div>
+      <div class="${contCol}">
         ${content}
       </div>
     </div>
   </div>
 </div>`;
+          }
         } else if (selectedStyle === "left") {
-          template = `
+          if (withoutContainer) {
+            template = `
 <div class="${commonSecClass}">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6">
+    <div class="${rowClass}">
+      <div class="${imgCol}">
         ${imageHtml}
       </div>
-      <div class="col-lg-6">
+      <div class="${contCol}">
+        ${content}
+      </div>
+    </div>
+</div>`;
+          } else {
+            template = `
+<div class="${commonSecClass}">
+  <div class="container">
+    <div class="${rowClass}">
+      <div class="${imgCol}">
+        ${imageHtml}
+      </div>
+      <div class="${contCol}">
         ${content}
       </div>
     </div>
   </div>
 </div>`;
+          }
         } else if (selectedStyle === "flot-left") {
-          template = `
+          if (withoutContainer) {
+            template = `
+<div class="${commonSecClass}">
+    <div class="${imgBox} float-lg-left">
+      <img src="/images/.jpg" alt="" />
+    </div>
+     ${content}
+</div>`;
+          } else {
+            template = `
 <div class="${commonSecClass}">
   <div class="container">
-    <div class="img-box float-lg-left">
+    <div class="${imgBox} float-lg-left">
       <img src="/images/.jpg" alt="" />
     </div>
      ${content}
   </div>
 </div>`;
+          }
         } else if (selectedStyle === "flot-right") {
-          template = `
+          if (withoutContainer) {
+            template = `
+<div class="${commonSecClass}">
+    <div class="${imgBox} float-lg-right">
+      <img src="/images/.jpg" alt="" />
+    </div>
+        ${content}
+</div>`;
+          } else {
+            template = `
 <div class="${commonSecClass}">
   <div class="container">
-    <div class="img-box float-lg-right">
+    <div class="${imgBox} float-lg-right">
       <img src="/images/.jpg" alt="" />
     </div>
         ${content}
   </div>
 </div>`;
+          }
         } else if (selectedStyle === "basic-sec") {
-          template = `
+          if (withoutContainer) {
+            template = `
+<div class="${commonSecClass}">
+    ${content}
+</div>`;
+          } else {
+            template = `
 <div class="${commonSecClass}">
   <div class="container">
     ${content}
   </div>
 </div>`;
+          }
         }
-
         document.getElementById("outputHtml").textContent = template;
       }
-
       function sanitizeHtml(html) {
         const tempDiv = document.createElement("div");
         tempDiv.innerHTML = html;
-
-        // Remove inline styles
         Array.from(tempDiv.querySelectorAll("[style]")).forEach((el) =>
           el.removeAttribute("style")
         );
-
-        // Remove <br> tags
         Array.from(tempDiv.querySelectorAll("br")).forEach((el) => el.remove());
         Array.from(tempDiv.querySelectorAll("&")).forEach((el) => el.remove());
 
-        // Decode &amp; to & if not already decoded
-        // tempDiv.innerHTML = tempDiv.innerHTML.replace(/&;/g, "and");
-
-        // Replace &nbsp; with a regular space
         tempDiv.innerHTML = tempDiv.innerHTML.replace(/&nbsp;/g, " ");
 
         return tempDiv.innerHTML;
       }
-
       function clearInput() {
         document.getElementById("inputHtml").value = "";
       }
-
       function copyOutput() {
         const outputHtml = document.getElementById("outputHtml").textContent;
         navigator.clipboard.writeText(outputHtml).then(() => {
           document.getElementById("copy-output").innerText = "Copied";
         });
       }
+      function togglePageReload(preventReload) {
+        window.addEventListener("beforeunload", preventUnload);
+      }
+      function preventUnload(event) {
+        event.preventDefault();
+      }
+      togglePageReload(true);
     </script>
   </body>
 </html>

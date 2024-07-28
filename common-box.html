@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HTML Generator</title>
-   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <p class="author">© 2024 RAJU ISLAM. All rights reserved.</p>
     <nav class="navbar">
-        <a href="common-box.html" class="logo active">Common box</a>
-        <a href="index.html" class="">Common Section</a>
-      </nav>
+      <a href="common-box.html" class="logo active">Common box</a>
+      <a href="index.html" class="">Common Section</a>
+    </nav>
     <div class="container">
       <div class="input-panel">
         <h1>Common box generator</h1>
@@ -41,16 +41,24 @@
         </div>
 
         <div class="include-img-col-nun">
-          <div class="form-group">
+          <div class="">
             <label for="numColumns">Number of Columns:</label>
             <input type="number" id="numColumns" value="1" min="1" />
           </div>
-          <div class="form-group includeImage">
+          <div class="includeImage">
             <input type="checkbox" id="includeImage" />
             <label for="includeImage">Include Image</label>
           </div>
         </div>
-        <button onclick="generateColumns()">Generate Columns</button>
+        <div class="col-tag-num">
+          <div>
+            <button onclick="generateColumns()">Generate Columns</button>
+          </div>
+          <div class="includeImage">
+            <input type="checkbox" id="colHeadingClass" />
+            <label for="colHeadingClass">Col heading class</label>
+          </div>
+        </div>
         <div class="form-group">
           <label for="mainHeading">Main Heading:</label>
           <input type="text" id="mainHeading" />
@@ -92,7 +100,7 @@
       }
 
       function generateHTML() {
-        document.getElementById("output").innerText ="Copy"
+        document.getElementById("output").innerText = "Copy";
         const sectionClass =
           document.getElementById("sectionClass").value || "common-sec";
         const mainHeadingClass =
@@ -100,18 +108,19 @@
         const mainHeading = document.getElementById("mainHeading").value;
         const mainParagraph = document.getElementById("mainParagraph").value;
         const includeImage = document.getElementById("includeImage").checked;
+        const colHeadingClass =
+          document.getElementById("colHeadingClass").checked;
         const colSize = document.getElementById("colSize").value;
         const numColumns = document.getElementById("numColumns").value;
         const headingTag = document.getElementById("headingTag").value || "h3";
 
-        let html = `
+        let content = `
 <div class="${sectionClass}">
   <div class="container">
     <h2 class="${mainHeadingClass}">${mainHeading}</h2>
     <p>${mainParagraph}</p>
     <div class="row">
 `;
-
         for (let i = 0; i < numColumns; i++) {
           const columnHeading = document.getElementById(
             `columnHeading${i}`
@@ -119,14 +128,12 @@
           const columnContent = document.getElementById(
             `columnContent${i}`
           ).value;
-
-          html += `
+          content += `
       <div class="${colSize} mb-5">
         <div class="common-box">
 `;
-
           if (includeImage) {
-            html += `
+            content += `
           <div class="img-box">
             <a href="#">
               <img src="/images/.jpg" alt="" />
@@ -134,32 +141,37 @@
           </div>
 `;
           }
-
-          html += `
+          content += `
           <div class="content">
-            <${headingTag} class="${mainHeadingClass}">${columnHeading}</${headingTag}>
+            <${headingTag}${
+            colHeadingClass ? `>` : ` class="${mainHeadingClass}">`
+          }${columnHeading}</${headingTag}>
             <p>${columnContent}</p>
           </div>
         </div>
       </div>
 `;
         }
-
-        html += `
+        content += `
     </div>
   </div>
 </div>
 `;
-
-        document.getElementById("outputHtml").textContent = html;
+        document.getElementById("outputHtml").textContent = content;
       }
-
       function copyToClipboard() {
         const outputHtml = document.getElementById("outputHtml").textContent;
         navigator.clipboard.writeText(outputHtml).then(() => {
-          document.getElementById("output").innerText= "Copied"
+          document.getElementById("output").innerText = "Copied";
         });
       }
+      function togglePageReload(preventReload) {
+        window.addEventListener("beforeunload", preventUnload);
+      }
+      function preventUnload(event) {
+        event.preventDefault();
+      }
+      togglePageReload(true);
     </script>
   </body>
 </html>
