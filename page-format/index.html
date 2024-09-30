@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML Transformer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="websiteData.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <p class="author">
+      © <span id="year"></span> RAJU ISLAM. All rights reserved.
+    </p>
+    <nav class="navbar">
+      <a href="index.html" class="active">Page Format</a>
+      <a href="add-website-data.html">Add New Website</a>
+      <label class="switch">
+        <input id="toggleNightMode" type="checkbox" />
+        <span class="slider"></span>
+      </label>
+    </nav>
+    <div class="container">
+      <div class="input-panel">
+        <div class="total-website">
+          <h1>HTML Input</h1>
+          <p>Total Websites __ <span id="totalWebsites">0</span></p>
+        </div>
+        <div>
+          <div>
+            <select
+              id="websiteSelect"
+              class="websiteSelect"
+              onchange="pageInfo()"
+            >
+              <option value="">Select a Website</option>
+            </select>
+          </div>
+        </div>
+        <textarea
+          id="inputHtml"
+          placeholder="[Enter your HTML here]"
+        ></textarea>
+        <select id="styleSelect">
+          <option class="option" value="right">Image Right</option>
+          <option class="option" value="left">Image Left</option>
+          <option class="option" value="basic-sec">Basic section</option>
+          <option class="option" value="flot-left">Image float Left</option>
+          <option class="option" value="flot-right">Image float Right</option>
+        </select>
+        <div class="input-style">
+          <input
+            type="text"
+            id="commonSecClass"
+            placeholder="Enter class for section"
+          />
+          <input
+            type="text"
+            id="heading_class"
+            placeholder="Enter class for heading"
+          />
+          <input type="text" id="ulClass" placeholder="Enter class for ul" />
+          <input
+            type="text"
+            id="btnClasses"
+            placeholder="Enter classes for buttons"
+          />
+        </div>
+        <div class="input-style">
+          <input type="text" id="imgBox" placeholder="img-box" />
+          <input
+            type="text"
+            id="rowClass"
+            placeholder="row align-items-center"
+          />
+          <input
+            type="text"
+            id="imgCol"
+            placeholder="[image column] col-lg-6"
+          />
+          <input
+            type="text"
+            id="contCol"
+            placeholder="[content column] col-lg-6"
+          />
+        </div>
+        <div class="checkbox-style">
+          <div class="checkbox-container">
+            <input type="checkbox" id="includePhone" />
+            <label for="includePhone">Add Phone btn</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="includeContact" />
+            <label for="includeContact">Add Contact btn</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="includeReview" />
+            <label for="includeReview">Add Review btn</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="optimizeImage" />
+            <label for="optimizeImage">Optimize Image</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="withoutcontainer" />
+            <label for="withoutcontainer">Without Container</label>
+          </div>
+        </div>
+        
+        <div class="checkbox-style">
+          <div class="checkbox-container">
+            <input type="checkbox" id="withoutHeadingClass" />
+            <label for="withoutHeadingClass">Without Heading class</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="useLazyload" />
+            <label for="useLazyload">Use lazyload</label>
+          </div>
+        </div>
+        
+        <div class="left-side-btn">
+          <button onclick="transformHtml()">Generate HTML</button>
+          <button class="clear-input" onclick="clearInput()">
+            Clear Input
+          </button>
+        </div>
+      </div>
+      <div class="output-panel">
+        <div class="output-heading">
+          <h2>Generated OUTPUT</h2>    
+          <button id="copy-output" class="copy-output" onclick="copyOutput()">Copy Output</button>
+        </div>
+        <pre id="outputHtml"></pre>
+      </div>
+    </div>
+  </body>
+</html>

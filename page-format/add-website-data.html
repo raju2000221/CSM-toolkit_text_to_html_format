@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Website Data</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #e9ecef;
+        margin: 0;
+        padding: 0;
+        color: #343a40;
+      }
+      .container {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.5s ease;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        background: #007bff;
+        padding: 15px;
+        border-radius: 8px 8px 0 0;
+        color: white;
+      }
+      .navbar a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        transition: background 0.3s;
+      }
+      .navbar a.active {
+        background: #0056b3;
+        border-radius: 4px;
+      }
+      h1 {
+        text-align: center;
+        color: #343a40;
+        margin-bottom: 20px;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+      }
+      label {
+        font-weight: bold;
+        color: #495057;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        box-sizing: border-box;
+        transition: border 0.3s;
+      }
+      input:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+        margin-top: 20px;
+        transition: background 0.3s, transform 0.2s;
+      }
+      button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+      button:active {
+        transform: translateY(1px);
+      }
+      #successMessage {
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #28a745;
+      }
+      #errorMessage {
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #ef2020;
+      }
+      .container small {
+        display: block; /* Make small a block element */
+        text-align: center; /* Center align text */
+        margin: 15px 0; /* Add margin for spacing */
+        color: #6c757d; /* Change color to make it distinct */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">Page Format</a>
+        <a href="add-website-data.html" class="active">Add New Website</a>
+      </nav>
+      <h1>Add Website Data</h1>
+      <small
+        >When input fields are left empty, the system will automatically apply
+        Nayem Vaiya's template classes as default.</small
+      >
+      <form id="websiteForm" class="form-grid">
+        <div>
+          <label for="id">ID:</label>
+          <input
+            type="text"
+            id="id"
+            name="id"
+            placeholder="csmbangladesh"
+            required
+          />
+        </div>
+        <div>
+          <label for="commonSecClass">Common Section Class:</label>
+          <input
+            type="text"
+            id="commonSecClass"
+            name="commonSecClass"
+            value="common-sec"
+            required
+          />
+        </div>
+        <div>
+          <label for="heading_class">Heading Class:</label>
+          <input
+            type="text"
+            id="heading_class"
+            name="heading_class"
+            value="common-heading"
+            required
+          />
+        </div>
+        <div>
+          <label for="ulClass">UL Class:</label>
+          <input type="text" id="ulClass" name="ulClass" required />
+        </div>
+        <div>
+          <label for="btnClasses">Button Classes:</label>
+          <input
+            type="text"
+            id="btnClasses"
+            name="btnClasses"
+            value="common btn bg-danger"
+            required
+          />
+        </div>
+        <div>
+          <label for="imgBox">Image Box:</label>
+          <input
+            type="text"
+            id="imgBox"
+            name="imgBox"
+            value="img-box"
+            required
+          />
+        </div>
+        <div>
+          <label for="rowClass">Row Class:</label>
+          <input
+            type="text"
+            id="rowClass"
+            name="rowClass"
+            value="row align-items-center"
+            required
+          />
+        </div>
+        <div>
+          <label for="imgCol">Image Column:</label>
+          <input
+            type="text"
+            id="imgCol"
+            name="imgCol"
+            value="col-lg-6"
+            required
+          />
+        </div>
+        <div>
+          <label for="contCol">Content Column:</label>
+          <input
+            type="text"
+            id="contCol"
+            name="contCol"
+            value="col-lg-6"
+            required
+          />
+        </div>
+
+        <button type="submit">Add Website Data</button>
+      </form>
+
+      <div id="successMessage"></div>
+      <div id="errorMessage"></div>
+    </div>
+
+    <script>
+      document
+        .getElementById("websiteForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault(); // Prevent form submission
+
+          const formData = {
+            id: document.getElementById("id").value,
+            commonSecClass: document.getElementById("commonSecClass").value,
+            heading_class: document.getElementById("heading_class").value,
+            ulClass: document.getElementById("ulClass").value,
+            btnClasses: document.getElementById("btnClasses").value,
+            imgBox: document.getElementById("imgBox").value,
+            rowClass: document.getElementById("rowClass").value,
+            imgCol: document.getElementById("imgCol").value,
+            contCol: document.getElementById("contCol").value,
+          };
+
+          try {
+            const response = await fetch("http://localhost:5000/website", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            });
+            console.log(response);
+            if (response.status === 409) {
+              document.getElementById("errorMessage").innerText =
+                'This website data already exists in the database.';
+              document.getElementById("successMessage").innerText = null
+
+            } else {
+              const result = await response.json();
+              document.getElementById("successMessage").innerText =
+                'Website data added successfully!' ;
+              document.getElementById("errorMessage").innerText = null
+
+            }
+          } catch (error) {
+            document.getElementById("responseMessage").innerText =
+              "Error adding website data!";
+            console.error("Error:", error);
+          }
+        });
+    </script>
+  </body>
+</html>

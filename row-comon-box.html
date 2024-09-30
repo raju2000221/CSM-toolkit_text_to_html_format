@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="style.css" />
     <script src="websiteData.js" defer></script>
     <style>
-      select, option {
+      select,
+      option {
         font-size: 16px;
         padding: 10px;
         margin: 10px;
@@ -19,9 +20,9 @@
   <body>
     <p class="author">© 2024 RAJU ISLAM. All rights reserved.</p>
     <nav class="navbar">
-      <a href="common-box.html" class="logo active">Common box</a>
+      <a href="common-box.html" class="logo">Common box</a>
       <a href="index2.html" class="">Common Section</a>
-      <a href="row-comon-box.html" class="">Common box row</a>
+      <a href="row-comon-box.html" class="active">Common box row</a>
     </nav>
     <div class="container">
       <div class="input-panel">
@@ -43,28 +44,52 @@
             <option value="northtxgen_com">northtxgen.com</option>
             <option value="arearugcleaning_com">arearugcleaning.com</option>
 
-
-            <!-- Add more options as needed -->
           </select>
+        </div>
+        <div style="display: none" class="input-class">
+          <div class="form-group">
+            <label for="commonSecClass">Image column size</label>
+            <input
+              type="text"
+              id="commonSecClass"
+              placeholder="Default.. col-lg-4"
+            />
+          </div>
+          <div class="form-group">
+            <label for="heading_class">Content column size</label>
+            <input
+              type="text"
+              id="heading_class"
+              placeholder="Default.. col-lg-8"
+            />
+          </div>
         </div>
         <div class="input-class">
           <div class="form-group">
-            <label for="commonSecClass">Section Class:</label>
-            <input type="text" id="commonSecClass" placeholder="common-sec" />
+            <label for="img-col-size">Image column size</label>
+            <input
+              type="text"
+              id="img-col-size"
+              placeholder="Default.. col-lg-4"
+            />
           </div>
           <div class="form-group">
-            <label for="heading_class">Main Heading Class:</label>
-            <input type="text" id="heading_class" placeholder="common-heading" />
+            <label for="content-col-size">Content column size</label>
+            <input
+              type="text"
+              id="content-col-size"
+              placeholder="Default.. col-lg-8"
+            />
           </div>
         </div>
         <div class="col-tag-num">
           <div class="form-group">
-            <label for="colSize">Column Size (e.g., col-md-6):</label>
-            <input type="text" id="colSize" value="col-md-6" />
-          </div>
-          <div class="form-group">
             <label for="headingTag">Column Heading Tag (default: h3):</label>
             <input type="text" id="headingTag" value="h3" />
+          </div>
+          <div class="form-group">
+            <label for="imgPadding">Add image padding</label>
+            <input type="text" id="imgPadding" placeholder="e.g..  p-3" />
           </div>
         </div>
         <div class="include-img-col-nun">
@@ -73,7 +98,7 @@
             <input type="number" id="numColumns" value="1" min="1" />
           </div>
           <div class="includeImage">
-            <input type="checkbox" id="includeImage" />
+            <input type="checkbox" checked id="includeImage" />
             <label for="includeImage">Include Image</label>
           </div>
         </div>
@@ -100,33 +125,23 @@
       <div class="output-panel">
         <div class="output-head">
           <h2>Generated HTML</h2>
-          <button class="output" id="output" onclick="copyToClipboard()">Copy Output</button>
+          <button class="output" id="output" onclick="copyToClipboard()">
+            Copy Output
+          </button>
         </div>
         <pre id="outputHtml"></pre>
       </div>
     </div>
     <script>
-      // const websiteData = {
-      //   website1: {
-      //     commonSecClass: 'website1-sec',
-      //     heading_class: 'website1-heading',
-      //     colSize: 'col-lg-4',
-      //     mainHeadingTag: 'h2',
-      //   },
-      //   website2: {
-      //     commonSecClass: 'website2-sec',
-      //     heading_class: 'website2-heading',
-      //   },
-      // };
-
       function loadWebsiteClasses() {
-        const selectedWebsite = document.getElementById('websiteSelect').value;
+        const selectedWebsite = document.getElementById("websiteSelect").value;
         if (selectedWebsite && websiteData[selectedWebsite]) {
           const classes = websiteData[selectedWebsite];
-          document.getElementById('commonSecClass').value = classes.commonSecClass;
-          document.getElementById('heading_class').value = classes.heading_class;
-          document.getElementById('colSize').value = "col-lg-6";
-          document.getElementById('headingTag').value = "h3";
+          document.getElementById("commonSecClass").value =
+            classes.commonSecClass;
+          document.getElementById("heading_class").value =
+            classes.heading_class;
+          document.getElementById("headingTag").value = "h3";
         }
       }
 
@@ -150,50 +165,63 @@
 
       function generateHTML() {
         document.getElementById("output").innerText = "Copy";
-        const commonSecClass = document.getElementById("commonSecClass").value ;
+        const commonSecClass = document.getElementById("commonSecClass").value;
         const heading_class = document.getElementById("heading_class").value;
         const mainHeading = document.getElementById("mainHeading").value;
         const mainParagraph = document.getElementById("mainParagraph").value;
         const includeImage = document.getElementById("includeImage").checked;
-        const colHeadingClass = document.getElementById("colHeadingClass").checked;
-        const colSize = document.getElementById("colSize").value;
+        const colHeadingClass =
+          document.getElementById("colHeadingClass").checked;
         const numColumns = document.getElementById("numColumns").value;
-        const headingTag = document.getElementById("headingTag").value ;
+        const headingTag = document.getElementById("headingTag").value;
+        const imageColSize =
+          document.getElementById("img-col-size").value || "col-lg-4";
+        const contentColSize =
+          document.getElementById("content-col-size").value || "col-lg-8";
+        const imgPadding = document.getElementById("imgPadding").value;
 
         let content = `
 <div class="${commonSecClass}">
   <div class="container">
     <h2 class="${heading_class}">${mainHeading}</h2>
     <p>${mainParagraph}</p>
-    <div class="row">
 `;
         for (let i = 0; i < numColumns; i++) {
-          const columnHeading = document.getElementById(`columnHeading${i}`).value;
-          const columnContent = document.getElementById(`columnContent${i}`).value;
+          const columnHeading = document.getElementById(
+            `columnHeading${i}`
+          ).value;
+          const columnContent = document.getElementById(
+            `columnContent${i}`
+          ).value;
           content += `
-      <div class="${colSize} mb-5">
-        <div class="common-box">
+    <div class="common-box mb-5">
+      <div class="row align-items-center">
 `;
           if (includeImage) {
             content += `
-          <div class="img-box">
-            <a href="#">
+        <div class="${imageColSize}">
+          <a href="#">
+            <div class="img-box ${imgPadding}">
               <img src="/images/.jpg" alt="" />
-            </a>
-          </div>
+            </div>
+          </a>
+        </div>
 `;
           }
           content += `
-          <div class="content">
-            <${headingTag}${colHeadingClass ? `>` : ` class="${heading_class}">`}${columnHeading}</${headingTag}>
+        <div class="${contentColSize}">
+          <div class="p-4">
+            <${headingTag}${
+            colHeadingClass ? `>` : ` class="${heading_class}">`
+          }<a href="#">${columnHeading}</a></${headingTag}>
             <p>${columnContent}</p>
           </div>
         </div>
       </div>
+    </div>
 `;
         }
         content += `
-    </div>
   </div>
 </div>
 `;
